@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f7fb">
+    <title>ParcelFlow — Courier operations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#dashboard" aria-label="ParcelFlow home">
+            <span class="brand-mark">P<span>✦</span></span>
+            <span class="brand-copy"><strong>parcelflow</strong><small>LOGISTICS PLATFORM</small></span>
+        </a>
+        <div class="nav-label">WORKSPACE</div>
+        <nav class="nav-list" aria-label="Main navigation">
+            <button class="nav-item active" data-section="dashboard"><span class="nav-icon">▦</span>Overview</button>
+            <button class="nav-item" data-section="shipments"><span class="nav-icon">↗</span>Shipments<span class="nav-count" id="navShipmentCount">0</span></button>
+            <button class="nav-item" data-section="customers"><span class="nav-icon">♙</span>Customers</button>
+            <button class="nav-item" data-section="agents"><span class="nav-icon">♧</span>Delivery agents</button>
+            <button class="nav-item" data-section="branches"><span class="nav-icon">⌖</span>Branches</button>
+            <button class="nav-item" data-section="updates"><span class="nav-icon">◷</span>Delivery updates</button>
+            <button class="nav-item" data-section="invoice"><span class="nav-icon">▤</span>Invoices</button>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="help-card"><span class="help-icon">✦</span><strong>Need a hand?</strong><p>Your operations are saved on this device.</p><span class="help-link">Local workspace <b>↗</b></span></div>
+            <div class="profile"><div class="avatar">PF</div><div><strong>Operations team</strong><small>Workspace admin</small></div><span class="profile-dots">•••</span></div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation">☰</button>
+            <div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumbTitle">Overview</strong></div>
+            <div class="topbar-actions">
+                <label class="search-box" for="globalSearch"><span>⌕</span><input id="globalSearch" type="search" placeholder="Track a parcel…"><kbd>↵</kbd></label>
+                <span class="live-pill"><i></i> Live workspace</span>
+                <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">☾</button>
+                <div class="top-avatar">PF</div>
+            </div>
+        </header>
+
+        <div class="content">
+            <section id="dashboard" class="section active">
+                <div class="welcome-row">
+                    <div><p class="eyebrow" id="todayLabel">OPERATIONS CENTER</p><h1>Good day, team <span class="wave">✦</span></h1><p class="subheading">Here’s what’s happening across your delivery network.</p></div>
+                    <div class="welcome-actions"><button class="button button-outline" id="loadDemoData" type="button">✦ Load demo data</button><button class="button button-primary" data-go="shipments"><span>＋</span> Create shipment</button></div>
+                </div>
+
+                <div class="stats-grid">
+                    <article class="stat-card accent-blue"><div class="stat-top"><span>Total shipments</span><span class="stat-icon">↗</span></div><strong id="shipmentCount">0</strong><div class="stat-foot"><span class="stat-dot"></span> All-time shipments</div></article>
+                    <article class="stat-card accent-violet"><div class="stat-top"><span>In transit</span><span class="stat-icon">⇢</span></div><strong id="transitCount">0</strong><div class="stat-foot"><span class="stat-dot"></span> Moving through network</div></article>
+                    <article class="stat-card accent-green"><div class="stat-top"><span>Delivered</span><span class="stat-icon">✓</span></div><strong id="deliveredCount">0</strong><div class="stat-foot"><span class="stat-dot"></span><span id="deliveryRate">0%</span> delivery completion</div></article>
+                    <article class="stat-card accent-orange"><div class="stat-top"><span>Customers</span><span class="stat-icon">♙</span></div><strong id="customerCount">0</strong><div class="stat-foot"><span class="stat-dot"></span><span id="agentCount">0</span> active delivery agents</div></article>
+                </div>
+
+                <div class="dashboard-grid">
+                    <article class="panel recent-panel">
+                        <div class="panel-heading"><div><p class="eyebrow">LIVE ACTIVITY</p><h2>Recent shipments</h2></div><button class="text-button" data-go="shipments">View all <span>→</span></button></div>
+                        <div class="table-wrap"><table><thead><tr><th>TRACKING ID</th><th>CUSTOMER</th><th>DESTINATION</th><th>STATUS</th></tr></thead><tbody id="recentShipments"></tbody></table></div>
+                    </article>
+                    <div class="right-column">
+                        <article class="track-card"><div class="track-orbit orbit-one"></div><div class="track-orbit orbit-two"></div><div class="track-content"><span class="track-icon">⌕</span><p class="eyebrow">PARCEL LOOKUP</p><h2>Where’s your parcel?</h2><p>Get the latest delivery status instantly.</p><form id="trackForm" class="track-form"><input id="trackingLookup" type="text" placeholder="Enter tracking number" required><button aria-label="Track parcel">→</button></form><small>Try one of your shipment tracking IDs</small></div></article>
+                        <article class="panel status-panel"><div class="panel-heading"><div><p class="eyebrow">NETWORK PULSE</p><h2>Shipment status</h2></div><span class="pulse-indicator">● Live</span></div><div id="statusBreakdown" class="status-breakdown"></div></article>
+                    </div>
+                </div>
+                <article class="activity-strip"><span class="activity-symbol">✦</span><div><strong>Everything in one place</strong><p>Manage customers, delivery teams, branches, updates and invoices from your workspace.</p></div><button class="text-button" data-go="customers">Explore workspace <span>→</span></button></article>
+            </section>
+
+            <section id="customers" class="section">
+                <div class="page-heading"><div><p class="eyebrow">YOUR NETWORK</p><h1>Customers</h1><p class="subheading">Keep customer details organized and close at hand.</p></div></div>
+                <form class="form-box" id="customerForm"><div class="form-title"><span class="form-icon">＋</span><div><h2>Add a customer</h2><p>Enter their contact information below.</p></div></div><div class="form-fields"><input id="customerName" placeholder="Full name" required><input id="customerEmail" type="email" placeholder="Email address" required><input id="customerPhone" type="tel" placeholder="Phone number" required><input id="customerCity" placeholder="City" required><button class="button button-primary" type="submit">Add customer <span>→</span></button></div></form>
+                <article class="panel"><div class="panel-heading"><div><p class="eyebrow">DIRECTORY</p><h2>Customer list</h2></div><span class="result-count" id="customerTotal">0 customers</span></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>NAME</th><th>EMAIL</th><th>PHONE</th><th>CITY</th><th></th></tr></thead><tbody id="customerTable"></tbody></table></div></article>
+            </section>
+
+            <section id="shipments" class="section">
+                <div class="page-heading"><div><p class="eyebrow">MOVING THE WORLD</p><h1>Shipments</h1><p class="subheading">Create consignments and keep every parcel on track.</p></div><button class="button button-outline" id="exportShipments">↓ Export CSV</button></div>
+                <form class="form-box" id="shipmentForm"><div class="form-title"><span class="form-icon">↗</span><div><h2>New shipment</h2><p>Tracking IDs must be unique.</p></div></div><div class="form-fields shipment-fields"><input id="tracking" placeholder="Tracking number" required><input id="shipmentCustomer" placeholder="Customer name" required><input id="source" placeholder="Origin city" required><input id="destination" placeholder="Destination city" required><input id="weight" type="number" min="0.1" step="0.1" placeholder="Weight (kg)" required><select id="shipmentStatus"><option>Booked</option><option>In Transit</option><option>Out for Delivery</option><option>Delivered</option><option>Delayed</option><option>Cancelled</option></select><button class="button button-primary" type="submit">Create shipment <span>→</span></button></div></form>
+                <article class="panel"><div class="panel-heading"><div><p class="eyebrow">ALL CONSIGNMENTS</p><h2>Shipment register</h2></div><div class="table-tools"><input id="shipmentFilter" class="filter-input" type="search" placeholder="Filter shipments…"><span class="result-count" id="shipmentTotal">0 shipments</span></div></div><div class="table-wrap"><table><thead><tr><th>TRACKING ID</th><th>CUSTOMER</th><th>ROUTE</th><th>WEIGHT</th><th>STATUS</th><th></th></tr></thead><tbody id="shipmentTable"></tbody></table></div></article>
+            </section>
+
+            <section id="agents" class="section">
+                <div class="page-heading"><div><p class="eyebrow">PEOPLE ON THE MOVE</p><h1>Delivery agents</h1><p class="subheading">Your delivery team, all in one directory.</p></div></div>
+                <form class="form-box" id="agentForm"><div class="form-title"><span class="form-icon">♧</span><div><h2>Add a delivery agent</h2><p>Keep your team contact details up to date.</p></div></div><div class="form-fields"><input id="agentName" placeholder="Agent name" required><input id="agentEmail" type="email" placeholder="Email address" required><input id="agentPhone" type="tel" placeholder="Phone number" required><select id="agentStatus"><option>Active</option><option>Inactive</option><option>On Leave</option></select><button class="button button-primary" type="submit">Add agent <span>→</span></button></div></form>
+                <article class="panel"><div class="panel-heading"><div><p class="eyebrow">TEAM DIRECTORY</p><h2>Delivery team</h2></div><span class="result-count" id="agentTotal">0 agents</span></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>AGENT</th><th>EMAIL</th><th>PHONE</th><th>AVAILABILITY</th><th></th></tr></thead><tbody id="agentTable"></tbody></table></div></article>
+            </section>
+
+            <section id="branches" class="section">
+                <div class="page-heading"><div><p class="eyebrow">GROWING TOGETHER</p><h1>Branches</h1><p class="subheading">Manage your pickup and delivery locations.</p></div></div>
+                <form class="form-box" id="branchForm"><div class="form-title"><span class="form-icon">⌖</span><div><h2>Add a branch</h2><p>Add a location to your delivery network.</p></div></div><div class="form-fields"><input id="branchName" placeholder="Branch name" required><input id="branchCode" placeholder="Branch code" required><input id="branchCity" placeholder="City" required><input id="branchState" placeholder="State / region" required><button class="button button-primary" type="submit">Add branch <span>→</span></button></div></form>
+                <article class="panel"><div class="panel-heading"><div><p class="eyebrow">LOCATION DIRECTORY</p><h2>Network branches</h2></div><span class="result-count" id="branchTotal">0 branches</span></div><div class="table-wrap"><table><thead><tr><th>BRANCH</th><th>CODE</th><th>CITY</th><th>STATE / REGION</th><th></th></tr></thead><tbody id="branchTable"></tbody></table></div></article>
+            </section>
+
+            <section id="updates" class="section">
+                <div class="page-heading"><div><p class="eyebrow">EVERY MILE MATTERS</p><h1>Delivery updates</h1><p class="subheading">Post a tracking event and instantly sync the shipment status.</p></div></div>
+                <form class="form-box" id="updateForm"><div class="form-title"><span class="form-icon">◷</span><div><h2>Post a delivery update</h2><p>Updates are linked to an existing tracking ID.</p></div></div><div class="form-fields"><input id="updateTracking" placeholder="Tracking number" required><select id="updateStatus"><option>In Transit</option><option>Out for Delivery</option><option>Delivered</option><option>Delayed</option></select><input id="remarks" placeholder="Status note / remarks" required><button class="button button-primary" type="submit">Post update <span>→</span></button></div></form>
+                <article class="panel"><div class="panel-heading"><div><p class="eyebrow">TRACKING TIMELINE</p><h2>Latest delivery events</h2></div><span class="result-count" id="updateTotal">0 updates</span></div><div class="table-wrap"><table><thead><tr><th>TRACKING ID</th><th>STATUS</th><th>REMARKS</th><th>TIME</th></tr></thead><tbody id="updateTable"></tbody></table></div></article>
+            </section>
+
+            <section id="invoice" class="section">
+                <div class="page-heading"><div><p class="eyebrow">BILLING & PAYMENTS</p><h1>Invoices</h1><p class="subheading">Create and follow up on shipment charges.</p></div></div>
+                <form class="form-box" id="invoiceForm"><div class="form-title"><span class="form-icon">▤</span><div><h2>Create an invoice</h2><p>Link the invoice to a shipment tracking number.</p></div></div><div class="form-fields"><input id="invoiceNumber" placeholder="Invoice number" required><input id="invoiceTracking" placeholder="Tracking number" required><input id="invoiceAmount" type="number" min="0.01" step="0.01" placeholder="Amount (₹)" required><select id="paymentStatus"><option>Paid</option><option>Unpaid</option><option>Pending</option></select><button class="button button-primary" type="submit">Create invoice <span>→</span></button></div></form>
+                <article class="panel"><div class="panel-heading"><div><p class="eyebrow">PAYMENT REGISTER</p><h2>All invoices</h2></div><span class="result-count" id="invoiceTotal">0 invoices</span></div><div class="table-wrap"><table><thead><tr><th>INVOICE NO.</th><th>TRACKING ID</th><th>AMOUNT</th><th>PAYMENT STATUS</th><th></th></tr></thead><tbody id="invoiceTable"></tbody></table></div></article>
+            </section>
+            <footer class="footer"><span>© <span id="yearNow"></span> ParcelFlow</span><span>Built for smoother deliveries <b>✦</b></span></footer>
+        </div>
+    </main>
+    <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+    <div class="scrim" id="scrim"></div>
+    <script src="script.js"></script>
+</body>
+</html>
